@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 @Data
-public class User {
+public class  User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uuid")
@@ -23,6 +23,8 @@ public class User {
 
     @Column(name = "user_password", nullable = false)
     private String user_password;
+
+
 
 }
 
