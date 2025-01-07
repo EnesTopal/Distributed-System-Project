@@ -7,7 +7,7 @@ import java.util.ArrayList;
 @Data
 public class UserDTO {
     private Integer uuid;
-    private String user_name;
+    private String username;
     private String email;
     private String user_password;
 //    private List<Event> organizedEvents;
@@ -15,7 +15,7 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this.uuid = user.getUuid();
-        this.user_name = user.getUser_name();
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.user_password = user.getUser_password();
 //        this.organizedEvents = user.getOrganizedEvents();

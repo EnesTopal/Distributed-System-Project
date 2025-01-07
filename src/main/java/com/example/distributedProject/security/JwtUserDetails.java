@@ -15,13 +15,13 @@ import java.util.List;
 @Setter
 public class JwtUserDetails implements UserDetails {
     public Integer uuid;
-    public String user_name;
+    public String username;
     public String user_password;
     private Collection<? extends GrantedAuthority> authorities;
 
     private JwtUserDetails(Integer uuid,String user_name, String user_password, Collection<? extends GrantedAuthority> authorities) {
         this.uuid = uuid;
-        this.user_name = user_name;
+        this.username = user_name;
         this.user_password = user_password;
         this.authorities = authorities;
     }
@@ -31,7 +31,7 @@ public class JwtUserDetails implements UserDetails {
         authorityList.add(new SimpleGrantedAuthority("user"));
         return new JwtUserDetails(
                 user.getUuid(),
-                user.getUser_name(),
+                user.getUsername(),
                 user.getUser_password(),
                 authorityList
         );
@@ -46,7 +46,7 @@ public class JwtUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user_name;
+        return username;
     }
 
     @Override

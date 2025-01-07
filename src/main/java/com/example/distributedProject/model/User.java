@@ -16,15 +16,13 @@ public class  User {
     private Integer uuid;
 
     @Column(name = "user_name", nullable = false)
-    private String user_name;
+    private String username;
 
     @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "user_password", nullable = false)
     private String user_password;
-
-
 
 }
 

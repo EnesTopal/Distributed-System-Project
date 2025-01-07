@@ -28,6 +28,6 @@ public class GetUserService implements Command<Integer, UserDTO> {
     }
 
     public User getOneUserByUserName(String Username) {
-        return userRepository.findByUser_name(Username);
+        return userRepository.findByUsername(Username);
     }
 }

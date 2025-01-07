@@ -20,7 +20,7 @@ public class DeleteUserService implements Command<Integer,Void> {
     @Override
     public ResponseEntity<Void> execute (Integer id){
         Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             userRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }

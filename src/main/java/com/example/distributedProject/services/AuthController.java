@@ -36,7 +36,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody UserRequest loginRequest){
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getUser_name(),loginRequest.getUser_password());
+        System.out.println(loginRequest.getUsername());
+        System.out.println(loginRequest.getUser_password());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),loginRequest.getUser_password());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwtToken = jwtGenerate.generateJwtToken(authentication);
@@ -45,12 +47,13 @@ public class AuthController {
     //responseentity dönmemizin sebebi header da bilgisini vermek istersek diye
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserRequest registerRequest){
-        if(getUserService.getOneUserByUserName(registerRequest.getUser_name())!=null){
+        if(getUserService.getOneUserByUserName(registerRequest.getUsername())!=null){
             return new ResponseEntity<>("Username already in use", HttpStatus.BAD_REQUEST);
         }
         User user = new User();
-        user.setUser_name(registerRequest.getUser_name());
+        user.setUsername(registerRequest.getUsername());
         user.setUser_password(passwordEncoder.encode(registerRequest.getUser_password()));
+        user.setEmail("test");
         createUserService.execute(user);
         return new ResponseEntity<>("User succesfully registered",HttpStatus.CREATED);
     }
