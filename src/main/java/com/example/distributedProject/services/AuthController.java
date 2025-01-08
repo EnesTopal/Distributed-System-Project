@@ -46,14 +46,14 @@ public class AuthController {
     }
     //responseentity dönmemizin sebebi header da bilgisini vermek istersek diye
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRequest registerRequest){
+    public ResponseEntity<String> register(@RequestBody User registerRequest){
         if(getUserService.getOneUserByUserName(registerRequest.getUsername())!=null){
             return new ResponseEntity<>("Username already in use", HttpStatus.BAD_REQUEST);
         }
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setUser_password(passwordEncoder.encode(registerRequest.getUser_password()));
-        user.setEmail("test");
+        user.setEmail(registerRequest.getEmail());
         createUserService.execute(user);
         return new ResponseEntity<>("User succesfully registered",HttpStatus.CREATED);
     }

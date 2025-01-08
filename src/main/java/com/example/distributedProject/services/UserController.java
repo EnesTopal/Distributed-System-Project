@@ -4,12 +4,16 @@ import com.example.distributedProject.model.UpdateUserCommand;
 import com.example.distributedProject.model.User;
 import com.example.distributedProject.model.UserDTO;
 import com.example.distributedProject.services.userservices.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/public")
 public class UserController {
     private final CreateUserService createUserService;
     private final DeleteUserService deleteUserService;
@@ -27,11 +31,6 @@ public class UserController {
         this.getUserService = getUserService;
         this.getUsersService = getUsersService;
         this.updateUserService = updateUserService;
-    }
-
-    @PostMapping("/user")
-    public ResponseEntity<UserDTO> createUser(@RequestBody User user){
-        return createUserService.execute(user);
     }
 
     @GetMapping("/users")

@@ -26,28 +26,27 @@ public class JwtGenerate {
                 .compact();
     }
 
-    Integer getUserIdFromToken(String token){
+    public Integer getUserIdFromToken(String token){
         Claims claims =  (Claims) Jwts.parser()
                 .setSigningKey(APP_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
         return Integer.parseInt(claims.getSubject());
     }
-    boolean validateToken(String token){
-         try{
-             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token);
-             return !isTokenExpired(token);
-         } catch (ExpiredJwtException e) {
-             return false;
-         } catch (UnsupportedJwtException e) {
-             return false;
-         } catch (MalformedJwtException e) {
-             return false;
-         } catch (SignatureException e) {
-             return false;
-         } catch (IllegalArgumentException e) {
-             return false;
-         }
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e) {
+            System.out.println("Token süresi dolmuş: " + e.getMessage());
+        } catch (MalformedJwtException e) {
+            System.out.println("Hatalı token formatı.");
+        } catch (SignatureException e) {
+            System.out.println("Token imzası geçersiz.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Boş token.");
+        }
+        return false;
     }
 
     private boolean isTokenExpired(String token) {

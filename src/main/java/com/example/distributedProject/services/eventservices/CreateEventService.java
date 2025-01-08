@@ -5,6 +5,7 @@ import com.example.distributedProject.model.Event;
 import com.example.distributedProject.model.EventDTO;
 import com.example.distributedProject.model.User;
 import com.example.distributedProject.services.EventRepository;
+import com.example.distributedProject.services.UserCheckService;
 import com.example.distributedProject.services.UserRepository;
 import com.mysql.cj.log.Log;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class CreateEventService implements Command<EventDTO, EventDTO> {
     private EventRepository eventRepository;
     private UserRepository userRepository;
+    private UserCheckService userCheckService;
 
     public CreateEventService(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
