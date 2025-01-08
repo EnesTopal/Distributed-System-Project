@@ -5,7 +5,7 @@
 
 # Base image olarak OpenJDK kullan
 FROM openjdk:17-jdk-slim
-
+#COPY C:/Users/Enes/.jdks/openjdk-23.0.1 /usr/local/java
 # Etiket ekle
 LABEL authors="Enes"
 
