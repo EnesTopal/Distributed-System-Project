@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{uuid}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer uuid){
+    public ResponseEntity<String> deleteUser(@PathVariable Integer uuid){
         return deleteUserService.execute(uuid);
     }
 }

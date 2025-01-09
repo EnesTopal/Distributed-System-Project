@@ -36,7 +36,7 @@ public class ParticipantController {
     }
 
     @DeleteMapping("/participate/{id}")
-    public ResponseEntity<Void> deleteParticipate(@PathVariable Integer id){
+    public ResponseEntity<String> deleteParticipate(@PathVariable Integer id){
         return deleteParticipateService.execute(id);
     }
 }

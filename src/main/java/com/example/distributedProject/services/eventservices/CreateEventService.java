@@ -18,13 +18,20 @@ public class CreateEventService implements Command<EventDTO, EventDTO> {
     private UserRepository userRepository;
     private UserCheckService userCheckService;
 
-    public CreateEventService(EventRepository eventRepository, UserRepository userRepository) {
+    public CreateEventService(EventRepository eventRepository, UserRepository userRepository, UserCheckService userCheckService) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
+        this.userCheckService = userCheckService;
     }
 
     @Override
     public ResponseEntity<EventDTO> execute(EventDTO eventDTO){
+
+        ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(eventDTO.getUser_id());
+        if (!userCheckResponse.getStatusCode().is2xxSuccessful()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new EventDTO());
+        }
+
         System.out.println(eventDTO.getUser_id());
         // user_id'yi alıp, ilgili User'ı veritabanından buluyoruz
         User user = userRepository.findById(eventDTO.getUser_id())
@@ -42,4 +49,5 @@ public class CreateEventService implements Command<EventDTO, EventDTO> {
         // Kaydedilen Event'i DTO'ya çevirip geri gönderiyoruz
         return ResponseEntity.status(HttpStatus.CREATED).body(new EventDTO(savedEvent));
     }
+
 }

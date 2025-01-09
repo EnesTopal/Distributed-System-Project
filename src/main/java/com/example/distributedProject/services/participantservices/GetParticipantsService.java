@@ -23,8 +23,8 @@ public class GetParticipantsService implements Query<Void, List<ParticipantDTO>>
         List<Participant> participants = participantRepository.findAll();
         List<ParticipantDTO> participantDTOS = participants.stream()
                 .map(participant -> new ParticipantDTO(
-                        participant.getEvent() != null ? participant.getEvent().getUuid() : null,
-                        participant.getUser() != null ? participant.getUser().getUuid() : null,
+                        participant.getUser().getUuid(),
+                        participant.getEvent().getUuid(),
                         participant.getUuid()
                 ))
                 .toList();

@@ -17,8 +17,8 @@ public class ParticipantDTO {
     public ParticipantDTO(Participant participant) {
         this.uuid = participant.getUuid();
         this.user = participant.getUser();
-        this.user_id = participant.getUuid();
-        this.event_id = participant.getUuid();
+        this.user_id = participant.getUser().getUuid();
+        this.event_id = participant.getEvent().getUuid();
         this.event = participant.getEvent();
     }
 

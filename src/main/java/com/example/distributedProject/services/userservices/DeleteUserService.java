@@ -12,10 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class DeleteUserService implements Command<Integer, Void> {
+public class DeleteUserService implements Command<Integer, String> {
     private final UserRepository userRepository;
     private final ParticipantRepository participantRepository;
     private final EventRepository eventRepository;
@@ -31,12 +32,38 @@ public class DeleteUserService implements Command<Integer, Void> {
         this.userCheckService = userCheckService;
     }
 
+//    @Override
+//    public ResponseEntity<Void> execute(Integer id) {
+//        // Kullanıcı kontrolü
+//        ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(id);
+//        if (!userCheckResponse.getStatusCode().is2xxSuccessful()) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Eğer kontrol başarısızsa uygun yanıt döndür
+//        }
+//
+//        // Kullanıcıyı kontrol et
+//        Optional<User> userOptional = userRepository.findById(id);
+//        if (userOptional.isPresent()) {
+//            User user = userOptional.get();
+//
+//            // İlişkili participant ve event verilerini temizle
+//            participantRepository.deleteById(user.getUuid());
+//            eventRepository.deleteById(user.getUuid());
+//
+//            // Kullanıcıyı sil
+//            userRepository.delete(user);
+//
+//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//        }
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//    }
+
     @Override
-    public ResponseEntity<Void> execute(Integer id) {
+    public ResponseEntity<String> execute(Integer id) {
         // Kullanıcı kontrolü
         ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(id);
         if (!userCheckResponse.getStatusCode().is2xxSuccessful()) {
-            return userCheckResponse; // Eğer kontrol başarısızsa uygun yanıt döndür
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("Yetkisiz işlem: Bu kullanıcı bu işlemi gerçekleştiremez.");
         }
 
         // Kullanıcıyı kontrol et
@@ -51,8 +78,15 @@ public class DeleteUserService implements Command<Integer, Void> {
             // Kullanıcıyı sil
             userRepository.delete(user);
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            // Başarılı silme durumu için mesaj döndür
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Başarılı: Kullanıcı ve ilişkili veriler başarıyla silindi.");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        // Kullanıcı bulunamadı durumu için mesaj döndür
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Kullanıcı bulunamadı: Verilen ID ile eşleşen bir kullanıcı bulunamadı.");
     }
+
+
 }
