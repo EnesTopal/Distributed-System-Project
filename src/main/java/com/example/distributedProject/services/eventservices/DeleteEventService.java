@@ -27,6 +27,7 @@ public class DeleteEventService implements Command<Integer, String> {
         Optional<Event> eventOptional = eventRepository.findById(id);
         if (eventOptional.isPresent()){
             Integer organizerId = eventOptional.get().getUser().getUuid();
+            System.out.println(organizerId);
             ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(organizerId);
             if (!userCheckResponse.getStatusCode().is2xxSuccessful()) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)

@@ -27,18 +27,15 @@ public class UpdateEventService implements Command<UpdateEventCommand, EventDTO>
     @Override
     public ResponseEntity<EventDTO> execute(UpdateEventCommand command){
 
-
-        Integer organizerId = eventRepository.findById(command.getUuid()).get().getUser().getUuid();
-        ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(organizerId);
-//        ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(command.getEventDTO().getUser_id());
-        if (!userCheckResponse.getStatusCode().is2xxSuccessful()){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new EventDTO());
-        }
-
         System.out.println(command.getEventDTO().getUser_id());
         Optional<Event> eventOptional = eventRepository.findById(command.getEventDTO().getUuid());
         Optional<User>  userOptional = userRepository.findById(command.getEventDTO().getUser_id());
         if (eventOptional.isPresent() && userOptional.isPresent() ){
+            Integer organizerId = eventRepository.findById(command.getUuid()).get().getUser().getUuid();
+            ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(organizerId);
+            if (!userCheckResponse.getStatusCode().is2xxSuccessful()){
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new EventDTO());
+            }
             Event event = new Event();
             event.setUuid(command.getEventDTO().getUuid());
             event.setEvent_name(command.getEventDTO().getEvent_name());

@@ -10,15 +10,14 @@ public class UserDTO {
     private String username;
     private String email;
     private String user_password;
-//    private List<Event> organizedEvents;
-//    private List<Participant> participated_events;
+    private List<Event> events;
+
 
     public UserDTO(User user) {
         this.uuid = user.getUuid();
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.user_password = user.getUser_password();
-//        this.organizedEvents = user.getOrganizedEvents();
-//        this.participated_events = user.getParticipated_events();
+        this.events = user.getEvents();
     }
 }
