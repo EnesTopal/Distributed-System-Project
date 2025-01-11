@@ -5,6 +5,7 @@ import com.example.distributedProject.model.Participant;
 import com.example.distributedProject.model.ParticipantDTO;
 import com.example.distributedProject.services.participantservices.CreateParticipateService;
 import com.example.distributedProject.services.participantservices.DeleteParticipateService;
+import com.example.distributedProject.services.participantservices.GetMyParticipantsService;
 import com.example.distributedProject.services.participantservices.GetParticipantsService;
 import com.example.distributedProject.services.userservices.*;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,15 @@ public class ParticipantController {
     private final CreateParticipateService createParticipateService;
     private final DeleteParticipateService deleteParticipateService;
     private final GetParticipantsService getParticipantsService;
+    private final GetMyParticipantsService getMyParticipantsService;
 
     public ParticipantController(CreateParticipateService createParticipateService,
                                  DeleteParticipateService deleteParticipateService,
-                                 GetParticipantsService getParticipantsService) {
+                                 GetParticipantsService getParticipantsService, GetMyParticipantsService getMyParticipantsService) {
         this.createParticipateService = createParticipateService;
         this.deleteParticipateService = deleteParticipateService;
         this.getParticipantsService = getParticipantsService;
+        this.getMyParticipantsService = getMyParticipantsService;
     }
 
     @PostMapping("/participate")
@@ -33,6 +36,11 @@ public class ParticipantController {
     @GetMapping("/participates")
     public ResponseEntity<List<ParticipantDTO>> getParticipates(){
         return getParticipantsService.execute(null);
+    }
+
+    @GetMapping("/myparticipates")
+    public ResponseEntity<List<ParticipantDTO>> getMyParticipates(){
+        return getMyParticipantsService.execute(null);
     }
 
     @DeleteMapping("/participate/{id}")
