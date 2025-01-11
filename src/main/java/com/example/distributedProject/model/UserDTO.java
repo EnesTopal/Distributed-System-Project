@@ -11,6 +11,7 @@ public class UserDTO {
     private String email;
     private String user_password;
     private List<Event> events;
+    private String role;
 
 
     public UserDTO(User user) {
@@ -19,5 +20,6 @@ public class UserDTO {
         this.email = user.getEmail();
         this.user_password = user.getUser_password();
         this.events = user.getEvents();
+        this.role = user.getRole();
     }
 }

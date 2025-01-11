@@ -31,6 +31,11 @@ public class User {
     @JsonManagedReference
     @JsonIgnore
     private List<Event> events;
+
+    @Column(name = "role")
+    @JsonIgnore
+    private String role = "USER";
+
 }
 
 
