@@ -27,15 +27,16 @@ public class CreateEventService implements Command<EventDTO, EventDTO> {
     @Override
     public ResponseEntity<EventDTO> execute(EventDTO eventDTO){
 
+
+
+        System.out.println(eventDTO.getUser_id());
+        User user = userRepository.findById(eventDTO.getUser_id())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         ResponseEntity<Void> userCheckResponse = userCheckService.sameUserCheck(eventDTO.getUser_id());
         if (!userCheckResponse.getStatusCode().is2xxSuccessful()){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new EventDTO());
         }
-
-        System.out.println(eventDTO.getUser_id());
-        // user_id'yi alıp, ilgili User'ı veritabanından buluyoruz
-        User user = userRepository.findById(eventDTO.getUser_id())
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Event nesnesini oluşturuyoruz
         Event event = new Event();
